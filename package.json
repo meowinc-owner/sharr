@@ -36,11 +36,9 @@
     "wrangler": "^4.33.0"
   },
   "scripts": {
-    "copy-redirects": "cpx public/_redirects dist/_redirects",
+    "copy-redirects": "cpx public/_redirects dist",
     "build": "tsc -b && vite build && npm run copy-redirects",
     "start": "vite preview",
-    "cf-typegen": "wrangler types",
-    "check": "tsc && vite build && wrangler deploy --dry-run",
     "dev": "vite",
     "lint": "eslint ."
   }

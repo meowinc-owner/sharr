@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { mochaPlugins } from "@getmocha/vite-plugins";
-import { viteStaticCopy } from 'vite-plugin-static-copy';
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
 export default defineConfig({
   plugins: [
@@ -12,24 +12,28 @@ export default defineConfig({
     cloudflare(),
     viteStaticCopy({
       targets: [
-        {
-          src: 'public/_redirects',
-          dest: '.' // copy to the root of dist
-        }
+        { src: "public/_redirects", dest: "." } // copy redirects to dist root
       ]
     })
   ],
-  server: {
-    allowedHosts: true,
-  },
   resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
+    alias: { "@": path.resolve(__dirname, "./src") },
   },
+  server: { allowedHosts: true },
   build: {
-    chunkSizeWarningLimit: 5000,
-    outDir: "dist",
+    outDir: "dist",           // root output folder
     emptyOutDir: true,
+    rollupOptions: {
+  input: {
+    main: path.resolve(__dirname, "index.html")
+  },
+  output: {
+    entryFileNames: `assets/[name]-[hash].js`,
+    chunkFileNames: `assets/[name]-[hash].js`,
+    assetFileNames: `assets/[name]-[hash].[ext]`
+  }
+},
+
+    chunkSizeWarningLimit: 5000,
   },
 });
